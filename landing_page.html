@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3D Preview Demo</title>
+  
+  <link rel="stylesheet" href="styles.css" />
+  
+</head>
+<body>
+  <button id="back-button" onclick="goBack()">←</button>
+  <div id="container">
+    <div id="threejs-container"></div>
+    <div id="meshjs-container"></div>
+    <div id="mixjs-container"></div>
+    <div id="info-panel">
+      <h1>FIRE_ACT_40s</h1>
+      <div id="info-buttons">
+        <button class="info-button blue">Stretch arms</button>
+        <button class="info-button blue">dance</button>
+        <button class="info-button green">1.75 Gb</button>
+      </div>
+      <ul>
+        <li><strong>Description:</strong> A man with fire</li>
+        <li><strong>Duration:</strong> 25 sec</li>
+        <li><strong>Resolution:</strong> 2880p</li>
+        <li><strong>Audio:</strong> Yes</li>
+        <li><strong>Capture Notes:</strong> 60 cameras captured</li>
+        <li><strong>Owner ID:</strong> @XYZVideos</li>
+        <li><strong>Permissions:</strong> free for private testing</li>
+        <li><strong>Movement Space:</strong> 3 m²</li>
+        <li><strong>Scale (Player):</strong> 1.5</li>
+        <li><strong>Pixel Ratio:</strong> 1.5</li>
+        <li><strong>Public:</strong> true</li>
+      </ul>
+      
+    </div>
+    
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.153.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./threejs_script.js"></script>
+    <script type="module" src="./mesh_script.js"></script>
+    <script type="module" src="./mix_script.js"></script>
+  </div>
+  
+</body>
+</html>
+
+<!-- http://127.0.0.1:5500/landing_page.html?bvh=poses.bvh&fbx=poses.fbx -->

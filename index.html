@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing Page</title>
+  
+  <link rel="stylesheet" href="stylesMainLandingPage.css" />
+  
+</head>
+<body>
+  <button id="back-button" onclick="goBack()">←</button>
+  <div id="container">
+    <div id="info-panel">
+        <h1 id="file-title">fileName</h1>
+      <div id="info-buttons">
+        <button class="info-button blue">Stretch arms</button>
+        <button class="info-button blue">dance</button>
+        <button class="info-button green">1.75 Gb</button>
+      </div>
+      <ul>
+        <li><strong>Description:</strong> A man with fire</li>
+        <li><strong>Duration:</strong> 25 sec</li>
+        <li><strong>Resolution:</strong> 2880p</li>
+        <li><strong>Audio:</strong> Yes</li>
+        <li><strong>Capture Notes:</strong> 60 cameras captured</li>
+        <li><strong>Owner ID:</strong> @XYZVideos</li>
+        <li><strong>Permissions:</strong> free for private testing</li>
+        <li><strong>Movement Space:</strong> 3 m²</li>
+        <li><strong>Scale (Player):</strong> 1.5</li>
+        <li><strong>Pixel Ratio:</strong> 1.5</li>
+        <li><strong>Public:</strong> true</li>
+      </ul>
+    </div>
+    <iframe id="VVDisplay" src="VVDisplay.html"></iframe>
+    <script>
+        const query = window.location.search;  
+        const params = new URLSearchParams(query);
+        const fileKeys = ['fbx', 'bvh', 'pkl', 'ply', 'obj', 'glb'];
+        let selectedFile = null;
+        for (const key of fileKeys) {
+          if (params.has(key)) {
+            selectedFile = params.get(key);
+            break;
+          }
+        }
+    
+        if (selectedFile) {
+          const fileBase = selectedFile.split('/').pop().split('.').shift();
+          document.getElementById("file-title").textContent = fileBase;
+        } else {
+          document.getElementById("file-title").textContent = "Unknown File";
+        }
+    
+        // Set iframe src with query
+        document.getElementById("VVDisplay").src = "VVDisplay.html" + query;
+      </script>
+  </div>
+  
+  
+</body>
+</html>
+
+<!-- http://127.0.0.1:5500/landing_page.html?bvh=poses.bvh&fbx=poses.fbx -->
