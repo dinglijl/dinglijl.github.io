@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  html, body {
+    background-color: #000; 
+    margin: 0;
+    padding: 0;
+    height: 100vh; 
+    width: 100vw; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+  }
+  #container {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    width: 100vw; 
+    background-color: blue !important;
+  }
+  #threejs-container, #meshjs-container, #mixjs-container{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: blue;
+    padding: 10px;
+    height: 100vh; 
+    /* width: 50%; */
+  }
+  canvas {
+    width: 100%;
+    max-width: 1000px;
+    max-height: 90vh
+  }
