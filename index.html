@@ -3,61 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Landing Page</title>
+  <title>VVDisplay</title>
   
-  <link rel="stylesheet" href="stylesMainLandingPage.css" />
+  <link rel="stylesheet" href="iFrameStyles.css" />
   
 </head>
 <body>
-  <button id="back-button" onclick="goBack()">←</button>
+  <iframe id="inforPanel" src="inforPanel.html"></iframe>
+  <script>
+  const query = window.location.search;
+  document.getElementById('inforPanel').src = 'inforPanel.html' + query;
+</script>
   <div id="container">
-    <div id="info-panel">
-        <h1 id="file-title">fileName</h1>
-      <div id="info-buttons">
-        <button class="info-button blue">Stretch arms</button>
-        <button class="info-button blue">dance</button>
-        <button class="info-button green">1.75 Gb</button>
-      </div>
-      <ul>
-        <li><strong>Description:</strong> A man dancing with fire</li>
-        <li><strong>Duration:</strong> 25 sec</li>
-        <li><strong>Resolution:</strong> 2880p</li>
-        <li><strong>Audio:</strong> Yes</li>
-        <li><strong>Capture Notes:</strong> 60 cameras captured</li>
-        <li><strong>Owner ID:</strong> @XYZVideos</li>
-        <li><strong>Permissions:</strong> free for private testing</li>
-        <li><strong>Movement Space:</strong> 3 m²</li>
-        <li><strong>Scale (Player):</strong> 1.5</li>
-        <li><strong>Pixel Ratio:</strong> 1.5</li>
-        <li><strong>Public:</strong> true</li>
-      </ul>
+    <div id="mixjs-container">
+        <div id="ui">
+            <label><input type="checkbox" id="toggleMesh" checked> Mesh</label>
+          </div>
+          <div id="animation-controls">
+            <button id="btnPlay">▶️ Play</button>
+            <button id="btnPause">⏸️ Pause</button>
+            <button id="btnRewind">⏪ Rewind</button>
+            <button id="btnStep">⏩ Step</button>
+          </div>
+          <select id="viewMode">
+            <option value="both">Mesh + Skeleton</option>
+            <option value="mesh">Mesh Only</option>
+          </select>
     </div>
-    <iframe id="VVDisplay" src="VVDisplay.html"></iframe>
-    <script>
-        const query = window.location.search;  
-        const params = new URLSearchParams(query);
-        const fileKeys = ['fbx', 'bvh', 'pkl', 'ply', 'obj', 'glb'];
-        let selectedFile = null;
-        for (const key of fileKeys) {
-          if (params.has(key)) {
-            selectedFile = params.get(key);
-            break;
-          }
-        }
     
-        if (selectedFile) {
-          const fileBase = selectedFile.split('/').pop().split('.').shift();
-          document.getElementById("file-title").textContent = fileBase;
-        } else {
-          document.getElementById("file-title").textContent = "Unknown File";
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.153.0/examples/jsm/"
         }
-    
-        // Set iframe src with query
-        document.getElementById("VVDisplay").src = "VVDisplay.html" + query;
-      </script>
+      }
+    </script>
+    <script type="module" src="./mix_script.js"></script>
   </div>
-  
-  
 </body>
 </html>
 
