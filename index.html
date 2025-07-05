@@ -6,6 +6,12 @@
   <title>VVDisplay</title>
   
   <link rel="stylesheet" href="iFrameStyles.css" />
+  <style>
+  .controlbutton
+  {
+  padding:0px; border:0px; background:black; margin:0px;
+  }
+  </style>
   
 </head>
 <body>
@@ -39,32 +45,38 @@
       }
     </script>
   <div id="container">
-    <div id="mixjs-container">
-        <div id="ui">
-            <label><input type="checkbox" id="toggleMesh" checked> Mesh</label>
-          </div>
-          <div id="animation-controls">
-            <button id="btnPlay">▶️ Play</button>
-            <button id="btnPause">⏸️ Pause</button>
-            <button id="btnRewind">⏪ Rewind</button>
-            <button id="btnStep">⏩ Step</button>
-          </div>
-          <select id="viewMode">
-            <option value="both">Mesh + Skeleton</option>
-            <option value="mesh">Mesh Only</option>
-          </select>
-    </div>
-    
-    <script type="importmap">
-      {
-        "imports": {
-          "three": "https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.module.js",
-          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.153.0/examples/jsm/"
-        }
-      }
-    </script>
-    <script type="module" src="./mix_script.js"></script>
-  </div>
+      <div id="mixjs-container">   
+          <div id="gui_holder" style=" width:100%; align:right; red; vertical-align:middle;">
+                <div style=" width: 33%; float:left; vertical-align:middle;  padding-top:0px; margin-top:0px;  align:right;">&nbsp;
+                </div>
+                <div id="animation-controls" style=" width: 33%; float:left; vertical-align:middle; padding-top:0px; margin-top:0px;  align:center;">
+                    <center>
+                    <button id="btnRewind" class="controlbutton"><img src="rewind_sm.png"></button>
+                    <button id="btnPause" class="controlbutton"><img src="pause_sm.png"></button>
+                    <button id="btnPlay" class="controlbutton"><img src="play_sm.png"></button>
+                    <button id="btnStep" class="controlbutton"><img src="ffwd_sm.png"></button>
+                    </center>
+                </div>
+                <div id="ui" style=" width: 33%; align:right; vertical-align:middle; padding-top:0px; margin-top:0px;">
+                    <label><input type="checkbox" id="toggleMesh" checked> Mesh</label>
+                    <select id="viewMode" style="float:left; margin-top:6px; padding-top:0px; margin-bottom:8px;">
+                        <option value="mesh">Mesh Only</option>
+                        <option value="both">Mesh + Skeleton</option>
+                    </select>
+                </div>
+            </div><!-- end of guihilder -->
+            
+            <script type="importmap">
+              {
+                "imports": {
+                  "three": "https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.module.js",
+                  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.153.0/examples/jsm/"
+                }
+              }
+            </script>
+            <script type="module" src="./mix_script.js"></script>
+        </div><!-- end of mixjs container-->
+    </div><!-- end of container-->
 </body>
 </html>
 
