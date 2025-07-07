@@ -66,7 +66,7 @@ sceneBoth.add(directionalLight.clone());
 
 sceneMeshOnly.add(ambientLight.clone());
 sceneMeshOnly.add(directionalLight.clone());
-const skyTexture1 = textureLoader.load('textures/sky.jpg');
+const skyTexture1 = textureLoader.load('textures/sky.png');
 sceneMeshOnly.background = skyTexture1;
 sceneMeshOnly.add(ground.clone());
 
