@@ -54,7 +54,7 @@ ground.position.y = 0;
 ground.userData.isGround = true;
 sceneBoth.add(ground);
 
-const skyTexture = textureLoader.load('textures/sky.jpg');
+const skyTexture = textureLoader.load('textures/sky.png');
 sceneBoth.background = skyTexture;
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
