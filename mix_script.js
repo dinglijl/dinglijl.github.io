@@ -54,7 +54,7 @@ ground.position.y = 0;
 ground.userData.isGround = true;
 sceneBoth.add(ground);
 
-const skyTexture = textureLoader.load('textures/sky.png');
+const skyTexture = textureLoader.load('textures/sky.jpg');
 sceneBoth.background = skyTexture;
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
@@ -66,7 +66,7 @@ sceneBoth.add(directionalLight.clone());
 
 sceneMeshOnly.add(ambientLight.clone());
 sceneMeshOnly.add(directionalLight.clone());
-const skyTexture1 = textureLoader.load('textures/sky.png');
+const skyTexture1 = textureLoader.load('textures/sky.jpg');
 sceneMeshOnly.background = skyTexture1;
 sceneMeshOnly.add(ground.clone());
 
