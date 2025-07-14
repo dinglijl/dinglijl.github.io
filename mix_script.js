@@ -52,9 +52,12 @@ const ground = new THREE.Mesh(
 ground.rotation.x = -Math.PI / 2;
 ground.position.y = 0;
 ground.userData.isGround = true;
-sceneBoth.add(ground);
+//sceneBoth.add(ground);
+const gridHelper = new THREE.GridHelper(400, 50); // size, divisions
+//scene.add(gridHelper);
+sceneBoth.add(gridHelper);
 
-const skyTexture = textureLoader.load('textures/sky.jpg');
+const skyTexture = textureLoader.load('textures/plainsky.jpg');
 sceneBoth.background = skyTexture;
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
@@ -66,7 +69,7 @@ sceneBoth.add(directionalLight.clone());
 
 sceneMeshOnly.add(ambientLight.clone());
 sceneMeshOnly.add(directionalLight.clone());
-const skyTexture1 = textureLoader.load('textures/sky.jpg');
+const skyTexture1 = textureLoader.load('textures/plainsky.jpg');
 sceneMeshOnly.background = skyTexture1;
 sceneMeshOnly.add(ground.clone());
 

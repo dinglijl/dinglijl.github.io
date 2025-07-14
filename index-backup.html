@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VVDisplay</title>
+  
+  <link rel="stylesheet" href="iFrameStyles.css" />
+  
+</head>
+<body>
+  <!-- <iframe id="inforPanel" src="inforPanel.html"></iframe> -->
+  <!-- <script>
+  const query = window.location.search;
+  document.getElementById('inforPanel').src = 'inforPanel.html' + query;
+</script> -->
+
+  <iframe id="VVDisplay" src="about:blank" style="width:400px; height:100%; border:none;"></iframe>
+    <script>
+      const query = window.location.search;  
+      const params = new URLSearchParams(query);
+      const fileKeys = ['fbx', 'bvh', 'pkl', 'ply', 'obj', 'glb'];
+      let selectedFile = null;
+    
+      for (const key of fileKeys) {
+        if (params.has(key)) {
+          selectedFile = params.get(key);
+          break;
+        }
+      }
+    
+      if (selectedFile) {
+        const fileName = selectedFile.split('/').pop();        
+        const baseName = fileName.split('.').shift();
+        const kebabName = baseName.toLowerCase().replace(/\s+/g, '-');      
+        const iframe = document.getElementById("VVDisplay");
+        iframe.src = `https://9bnfwkt.spread.name/item/${kebabName}`;
+        console.log("iframe.src set to:", iframe.src);
+      }
+    </script>
+  <div id="container">
+    <div id="mixjs-container">
+        <div id="ui">
+            <label><input type="checkbox" id="toggleMesh" checked> Mesh</label>
+          </div>
+          <div id="animation-controls">
+            <button id="btnPlay">▶️ Play</button>
+            <button id="btnPause">⏸️ Pause</button>
+            <button id="btnRewind">⏪ Rewind</button>
+            <button id="btnStep">⏩ Step</button>
+          </div>
+          <select id="viewMode">
+            <option value="both">Mesh + Skeleton</option>
+            <option value="mesh">Mesh Only</option>
+          </select>
+    </div>
+    
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.153.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="./mix_script.js"></script>
+  </div>
+</body>
+</html>
+
+<!-- http://127.0.0.1:5500/landing_page.html?bvh=poses.bvh&fbx=poses.fbx -->
