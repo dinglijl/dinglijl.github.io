@@ -15,6 +15,7 @@ renderer.setSize(container.clientWidth, container.clientWidth);
 container.appendChild(renderer.domElement);
 
 
+
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
@@ -34,6 +35,9 @@ const fbxLoader = new FBXLoader();
 fbxLoader.load(
     fbxFile,
     (object) => {
+
+
+
         scene.add(object);
         mixer = new THREE.AnimationMixer(object);
         const action = mixer.clipAction(object.animations[0]);
@@ -43,16 +47,16 @@ fbxLoader.load(
         const center = new THREE.Vector3();
         box.getCenter(center);
         controls.target.copy(center); 
+        // camera.lookAt(center);
         controls.update();
         const size = box.getSize(new THREE.Vector3()).length();
         const distance = size * 1.2;
-
-        camera.position.set(center.x, center.y + size * 0.2, center.z + distance);
-
-
+        camera.position.set(center.x, center.y + 0.1*distance, center.z + 130);
+        // camera.position.set(center.x, center.y + size * 0.05, center.z + 130);
+        console.log(camera.position)
     },
     (xhr) => {
-        console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+        // console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
     },
     (error) => {
         console.log(error);
@@ -82,20 +86,23 @@ if (!generateBtn) {
 
 generateBtn.addEventListener("click", () => {
   // console.log("Generate button clicked");
-
+const targetSize = 480;
+renderer.setSize(targetSize, targetSize);
   const gif = new window.GIF({ 
     workers: 2,
-    quality: 10,
-    width: renderer.domElement.width,
-    height: renderer.domElement.height,
+    quality: 1,
+    // width: renderer.domElement.width,
+    // height: renderer.domElement.height,
+    width: targetSize,
+    height: targetSize,
     workerScript: 'gif.worker.js'
   });
 
-  let duration = 5; // seconds
-  let frameRate = 10;
+  let duration = 2; // seconds
+  let frameRate = 30;
   let totalFrames = duration * frameRate;
   let captured = 0;
-
+  const captureClock = new THREE.Clock();
   function captureFrame() {
     if (captured >= totalFrames) {
       console.log("🟡 Done capturing frames, rendering...");
@@ -103,10 +110,13 @@ generateBtn.addEventListener("click", () => {
       return;
     }
 
-    if (mixer) mixer.update(1 / frameRate);
+    // if (mixer) mixer.update(1 / frameRate);
+    const delta = captureClock.getDelta();  // accurate frame time
+    if (mixer) mixer.update(delta);         // advance properly
     renderer.render(scene, camera);
 
     gif.addFrame(renderer.domElement, { copy: true, delay: 1000 / frameRate });
+    // gif.addFrame(renderer.domElement, { copy: true, delay: 100});
     console.log(`🟢 Captured frame ${captured + 1}/${totalFrames}`);
     captured++;
     requestAnimationFrame(captureFrame);
@@ -117,8 +127,12 @@ generateBtn.addEventListener("click", () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    console.log(url);
-    a.download = "animation.gif";
+
+    const originalName = fbxFile
+      ? fbxFile.split('/').pop().replace(/\.[^/.]+$/, '')
+      : 'animation';
+
+    a.download = `${originalName}.gif`;
     a.click();
     console.log("✅ GIF download triggered:", url);
   });
