@@ -39,20 +39,36 @@ fbxLoader.load(
 
 
         scene.add(object);
+        console.log(object)
+        console.log("Original FBX scale:", object.scale); 
         mixer = new THREE.AnimationMixer(object);
         const action = mixer.clipAction(object.animations[0]);
         action.play();
 
         const box = new THREE.Box3().setFromObject(object);
+        const size = box.getSize(new THREE.Vector3());
         const center = new THREE.Vector3();
         box.getCenter(center);
-        controls.target.copy(center); 
+        // controls.target.copy(center); 
+        const bottomY = center.y-size.y/2;
         // camera.lookAt(center);
-        controls.update();
-        const size = box.getSize(new THREE.Vector3()).length();
-        const distance = size * 1.2;
-        camera.position.set(center.x, center.y + 0.1*distance, center.z + 130);
+        // controls.update();
+        
+        // Adjust camera and controls to always anchor at the base
+        const cameraOffset = size.length() * 1.2;
+        
+        console.log(size)
+        console.log(box.getSize(new THREE.Vector3()))
+        const distance = size.length() * 1.2;
+        camera.position.set(center.x, bottomY + size.y * 0.8, center.z + 150);
+        controls.target.set(center.x, bottomY + size.y * 0.9, center.z);
+        // console.log(center.y)
+        // camera.position.set(center.x, center.y, center.z + 130);
+        // const maxDim = Math.max(size.x, size.y, size.z);
+        // const distance = maxDim * 2.5; // adjust multiplier as needed
+        
         // camera.position.set(center.x, center.y + size * 0.05, center.z + 130);
+        controls.update();
         console.log(camera.position)
     },
     (xhr) => {
