@@ -60,7 +60,7 @@ fbxLoader.load(
         console.log(size)
         console.log(box.getSize(new THREE.Vector3()))
         const distance = size.length() * 1.2;
-        camera.position.set(center.x, bottomY + size.y * 0.8, center.z + 150);
+        camera.position.set(center.x, bottomY + size.y * 0.5, center.z + 150);
         controls.target.set(center.x, bottomY + size.y * 0.9, center.z);
         // console.log(center.y)
         // camera.position.set(center.x, center.y, center.z + 130);
