@@ -20,31 +20,9 @@
   const query = window.location.search;
   document.getElementById('inforPanel').src = 'inforPanel.html' + query;
 </script> -->
-<!--
-  <iframe id="VVDisplay" src="about:blank" style="width:400px; height:100%; border:none;"></iframe>
-    <script>
-      const query = window.location.search;  
-      const params = new URLSearchParams(query);
-      const fileKeys = ['fbx', 'bvh', 'pkl', 'ply', 'obj', 'glb'];
-      let selectedFile = null;
-    
-      for (const key of fileKeys) {
-        if (params.has(key)) {
-          selectedFile = params.get(key);
-          break;
-        }
-      }
-    
-      if (selectedFile) {
-        const fileName = selectedFile.split('/').pop();        
-        const baseName = fileName.split('.').shift();
-        const kebabName = baseName.toLowerCase().replace(/\s+/g, '-');      
-        const iframe = document.getElementById("VVDisplay");
-        iframe.src = `https://9bnfwkt.spread.name/item/${kebabName}`;
-        console.log("iframe.src set to:", iframe.src);
-      }
-    </script>
-    -->
+
+
+
   <div id="container">
       <div id="mixjs-container">   
           <div id="gui_holder" style=" width:100%; align:right; red; vertical-align:middle;">
@@ -78,6 +56,31 @@
             <script type="module" src="./mix_script.js"></script>
         </div><!-- end of mixjs container-->
     </div><!-- end of container-->
+    
+      <iframe id="VVDisplay" src="about:blank" style="width:400px; height:100%; border:none;"></iframe>
+    <script>
+      const query = window.location.search;  
+      const params = new URLSearchParams(query);
+      const fileKeys = ['fbx', 'bvh', 'pkl', 'ply', 'obj', 'glb'];
+      let selectedFile = null;
+    
+      for (const key of fileKeys) {
+        if (params.has(key)) {
+          selectedFile = params.get(key);
+          break;
+        }
+      }
+    
+      if (selectedFile) {
+        const fileName = selectedFile.split('/').pop();        
+        const baseName = fileName.split('.').shift();
+        const kebabName = baseName.toLowerCase().replace(/\s+/g, '-');      
+        const iframe = document.getElementById("VVDisplay");
+        iframe.src = `https://9bnfwkt.spread.name/item/${kebabName}`;
+        console.log("iframe.src set to:", iframe.src);
+      }
+    </script>
+    
 </body>
 </html>
 
