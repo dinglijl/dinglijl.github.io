@@ -98,7 +98,7 @@ fbxLoader.load(
     fbxFile,
     (object) => {
       sceneBoth.add(object);
-
+    const asset = object;
         object.traverse(function (child) {
             if (child.isSkinnedMesh) {
                 if (child.material.map) {
@@ -195,6 +195,24 @@ fbxLoader.load(
   
 );
 
+/////
+function scaleToRealWorld(object3D, desiredHeightMeters = 1.70) {
+  const box = new THREE.Box3().setFromObject(object3D);
+  const size = new THREE.Vector3();
+  box.getSize(size);           // size in “your current units”
+  const currentHeight = size.y;
+
+  const s = desiredHeightMeters / currentHeight; // converts to meters
+  object3D.scale.setScalar(s);
+
+  // Recompute after scaling if you need exact placement
+}
+function placeOnFloor(object3D) {
+  const box = new THREE.Box3().setFromObject(object3D);
+  const minY = box.min.y;
+  object3D.position.y -= minY;  // raises/lowers so bottom touches y=0
+}
+////
 
 function updateVisibility() {
   sceneBoth.traverse((child) => {
@@ -239,7 +257,8 @@ function updateVisibility() {
 
 
 const clock = new THREE.Clock();  
-
+scaleToRealWorld(asset, 1.70);
+placeOnFloor(asset);
 /*
 function animate() {
     requestAnimationFrame(animate);
@@ -263,6 +282,14 @@ renderer.setAnimationLoop(() => {
   renderer.render(activeScene, camera);
 });
 /////
+
+renderer.xr.addEventListener("sessionstart", () => {
+  controls.enabled = false;
+});
+
+renderer.xr.addEventListener("sessionend", () => {
+  controls.enabled = true;
+});
 
 function render() {
     renderer.render(activeScene, camera)
