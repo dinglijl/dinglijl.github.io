@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VVDisplay</title>
+  
+  <link rel="stylesheet" href="iFrameStyles.css" />
+  <style>
+  .controlbutton
+  {
+  padding:0px; border:0px; background:black; margin:0px;
+  }
+  </style>
+  
+</head>
+<body> TEST
+  <!-- <iframe id="inforPanel" src="inforPanel.html"></iframe> -->
+  <!-- <script>
+  const query = window.location.search;
+  document.getElementById('inforPanel').src = 'inforPanel.html' + query;
+</script> -->
+
+
+
+  <div id="container">
+      <div id="mixjs-container">   
+          <div id="gui_holder" style=" width:100%; align:right; red; vertical-align:middle;">
+                <div style=" width: 33%; float:left; vertical-align:middle;  padding-top:0px; margin-top:0px;  align:right;">&nbsp;
+                </div>
+                <div id="animation-controls" style=" width: 33%; float:left; vertical-align:middle; padding-top:0px; margin-top:0px;  align:center;">
+                    <center>
+                    <button id="btnRewind" class="controlbutton"><img src="rewind_sm.png"></button>
+                    <button id="btnPause" class="controlbutton"><img src="pause_sm.png"></button>
+                    <button id="btnPlay" class="controlbutton"><img src="play_sm.png"></button>
+                    <button id="btnStep" class="controlbutton"><img src="ffwd_sm.png"></button>
+                    </center>
+                    
+                    <button id="btnVR">VR</button>
+                </div>
+                <div id="ui" style=" width: 33%; align:right; vertical-align:middle; padding-top:0px; margin-top:0px;">
+                    <label><input type="checkbox" id="toggleMesh" checked> Model </label>
+                    <select id="viewMode" style="float:left; margin-top:6px; padding-top:0px; margin-bottom:8px;">
+                        <option value="mesh">Mesh Only</option>
+                        <option value="both">Mesh + Skeleton</option>
+                    </select>
+                </div>
+            </div><!-- end of guihilder -->
+            
+            <script type="importmap">
+              {
+                "imports": {
+                  "three": "https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.module.js",
+                  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.153.0/examples/jsm/"
+                }
+              }
+            </script>
+            <script type="module" src="./mix_scriptVR.js"></script>
+        </div><!-- end of mixjs container-->
+    </div><!-- end of container-->
+    
+      <iframe id="VVDisplay" src="about:blank" style="width:400px; height:100%; border:none;"></iframe>
+    <script>
+      const query = window.location.search;  
+      const params = new URLSearchParams(query);
+      const fileKeys = ['fbx', 'bvh', 'pkl', 'ply', 'obj', 'glb'];
+      let selectedFile = null;
+    
+      for (const key of fileKeys) {
+        if (params.has(key)) {
+          selectedFile = params.get(key);
+          break;
+        }
+      }
+    
+      if (selectedFile) {
+        const fileName = selectedFile.split('/').pop();        
+        const baseName = fileName.split('.').shift();
+        const kebabName = baseName.toLowerCase().replace(/\s+/g, '-');      
+        const iframe = document.getElementById("VVDisplay");
+        iframe.src = `https://9bnfwkt.spread.name/item/${kebabName}`;
+        console.log("iframe.src set to:", iframe.src);
+      }
+    </script>
+    
+</body>
+</html>
+
+<!-- http://127.0.0.1:5500/landing_page.html?bvh=poses.bvh&fbx=poses.fbx -->
