@@ -11,6 +11,15 @@
   {
   padding:0px; border:0px; background:black; margin:0px;
   }
+  
+
+    @media (max-width: 768px) 
+    {
+      iframe {
+        display: none;
+      }
+    }
+
   </style>
   
 </head>
@@ -57,7 +66,7 @@
         </div><!-- end of mixjs container-->
     </div><!-- end of container-->
     
-      <iframe id="VVDisplay" src="about:blank" style="width:400px; height:100%; border:none;"></iframe>
+      <!--iframe id="VVDisplay" src="about:blank" style="width:400px; height:100%; border:none; padding:20px;"></iframe-->
     <script>
       const query = window.location.search;  
       const params = new URLSearchParams(query);
@@ -80,7 +89,13 @@
         console.log("iframe.src set to:", iframe.src);
       }
     </script>
-    
+    <div style="  position: fixed;
+  top: 0;
+  right: 0;
+  width: 400px;
+  height: 100px;
+  background: #000;
+  z-index: 2147483647;"></div>
 </body>
 </html>
 
