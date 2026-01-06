@@ -15,6 +15,7 @@ renderer.setSize(container.clientWidth, container.clientWidth);
 container.appendChild(renderer.domElement);
 
 
+
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
@@ -34,25 +35,44 @@ const fbxLoader = new FBXLoader();
 fbxLoader.load(
     fbxFile,
     (object) => {
+
+
+
         scene.add(object);
+        console.log(object)
+        console.log("Original FBX scale:", object.scale); 
         mixer = new THREE.AnimationMixer(object);
         const action = mixer.clipAction(object.animations[0]);
         action.play();
 
         const box = new THREE.Box3().setFromObject(object);
+        const size = box.getSize(new THREE.Vector3());
         const center = new THREE.Vector3();
         box.getCenter(center);
-        controls.target.copy(center); 
+        // controls.target.copy(center); 
+        const bottomY = center.y-size.y/2;
+        // camera.lookAt(center);
+        // controls.update();
+        
+        // Adjust camera and controls to always anchor at the base
+        const cameraOffset = size.length() * 1.2;
+        
+        console.log(size)
+        console.log(box.getSize(new THREE.Vector3()))
+        const distance = size.length() * 1.2;
+        camera.position.set(center.x, bottomY + size.y * 0.8, center.z + 150);
+        controls.target.set(center.x, bottomY + size.y * 0.9, center.z);
+        // console.log(center.y)
+        // camera.position.set(center.x, center.y, center.z + 130);
+        // const maxDim = Math.max(size.x, size.y, size.z);
+        // const distance = maxDim * 2.5; // adjust multiplier as needed
+        
+        // camera.position.set(center.x, center.y + size * 0.05, center.z + 130);
         controls.update();
-        const size = box.getSize(new THREE.Vector3()).length();
-        const distance = size * 1.2;
-
-        camera.position.set(center.x, center.y + size * 0.2, center.z + distance);
-
-
+        console.log(camera.position)
     },
     (xhr) => {
-        console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+        // console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
     },
     (error) => {
         console.log(error);
@@ -82,20 +102,23 @@ if (!generateBtn) {
 
 generateBtn.addEventListener("click", () => {
   // console.log("Generate button clicked");
-
+const targetSize = 480;
+renderer.setSize(targetSize, targetSize);
   const gif = new window.GIF({ 
     workers: 2,
-    quality: 10,
-    width: renderer.domElement.width,
-    height: renderer.domElement.height,
+    quality: 1,
+    // width: renderer.domElement.width,
+    // height: renderer.domElement.height,
+    width: targetSize,
+    height: targetSize,
     workerScript: 'gif.worker.js'
   });
 
-  let duration = 5; // seconds
-  let frameRate = 10;
+  let duration = 2; // seconds
+  let frameRate = 30;
   let totalFrames = duration * frameRate;
   let captured = 0;
-
+  const captureClock = new THREE.Clock();
   function captureFrame() {
     if (captured >= totalFrames) {
       console.log("🟡 Done capturing frames, rendering...");
@@ -103,10 +126,13 @@ generateBtn.addEventListener("click", () => {
       return;
     }
 
-    if (mixer) mixer.update(1 / frameRate);
+    // if (mixer) mixer.update(1 / frameRate);
+    const delta = captureClock.getDelta();  // accurate frame time
+    if (mixer) mixer.update(delta);         // advance properly
     renderer.render(scene, camera);
 
     gif.addFrame(renderer.domElement, { copy: true, delay: 1000 / frameRate });
+    // gif.addFrame(renderer.domElement, { copy: true, delay: 100});
     console.log(`🟢 Captured frame ${captured + 1}/${totalFrames}`);
     captured++;
     requestAnimationFrame(captureFrame);
@@ -117,8 +143,12 @@ generateBtn.addEventListener("click", () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    console.log(url);
-    a.download = "animation.gif";
+
+    const originalName = fbxFile
+      ? fbxFile.split('/').pop().replace(/\.[^/.]+$/, '')
+      : 'animation';
+
+    a.download = `${originalName}.gif`;
     a.click();
     console.log("✅ GIF download triggered:", url);
   });
